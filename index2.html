@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>h5拖拽</title>
+	<style>
+	#mouseCls {
+		position: absolute;
+		width: 200px;
+		height: 200px;
+		left: 200px;
+		height: 200px;
+		background: yellow;
+		cursor: move;
+	}
+	</style>
+</head>
+<body>
+	<div id="mouseCls">
+		<h3>h5拖拽</h3>
+	</div>
+	<script src="JQ/jquery-3.2.1.min.js"></script>
+	<script>
+		//定义鼠标是否按下
+		var isMouseDown = false;
+		//定义鼠标距离
+		var mouse = {};
+		var $mouseCls = $("#mouseCls");
+		//当鼠标按下时
+		$mouseCls.on("mousedown",function(e){
+			isMouseDown = true;
+			mouse.x = e.pageX;
+			mouse.y = e.pageY;
+		}).on("mousemove",function(e){
+			if(isMouseDown){
+				var mouseGetX = parseInt($mouseCls.css("left")) + e.pageX - mouse.x;
+				var mouseGetY = parseInt($mouseCls.css("top")) + e.pageY - mouse.y;
+				if(mouseGetX <= 0){
+					mouseGetX = 0;
+				}else if(mouseGetX >= $(window).width() - $mouseCls.width()){
+					mouseGetX = parseInt($(window).width() - $mouseCls.width());
+				}
+				if(mouseGetY <= 0){
+					mouseGetY = 0;
+				}else if(mouseGetY >= $(window).height() - $mouseCls.height()){
+					mouseGetY = parseInt($(window).height() - $mouseCls.height());
+				}
+				$mouseCls.css("left",mouseGetX + "px");
+				$mouseCls.css("top",mouseGetY + "px");
+				mouse.x = e.pageX;
+				mouse.y = e.pageY;
+			}
+		}).on("mouseup",function(){
+			isMouseDown = false;
+			mouse = {};
+		})
+				
+	</script>
+</body>
+</html>
